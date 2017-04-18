@@ -177,6 +177,11 @@ public protocol JBDatePickerViewDelegate: class {
     ///color of the semi selected selection circle (that shows on a long press)
     var colorForSemiSelectedSelectionCircle: UIColor { get }
     
+    
+    // MARK: - Date Configuration
+    
+    ///calendar to use for date calculations (including timezones)
+    var calendar: Calendar { get }
 }
 
 /**
@@ -193,7 +198,7 @@ public extension JBDatePickerViewDelegate {
     public var dateToShow: Date { return Date()}
     public var firstWeekDay: JBWeekDay {
         
-        if let calendarValue = JBWeekDay(rawValue: Calendar.current.firstWeekday){
+        if let calendarValue = JBWeekDay(rawValue: self.calendar.firstWeekday){
             return calendarValue
         }
         else {
@@ -220,4 +225,7 @@ public extension JBDatePickerViewDelegate {
     public var colorForSelectionCircleForOtherDate: UIColor { return  UIColor(red: 81.0/255.0, green: 182.0/255.0, blue: 185.0/255.0, alpha: 1.0) }
     public var colorForSelectionCircleForToday: UIColor { return UIColor(red: 255.0/255.0, green: 98.0/255.0, blue: 89.0/255.0, alpha: 1.0) }
     public var colorForSemiSelectedSelectionCircle: UIColor { return UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0) }
+    
+    // MARK: - Date Configuration defaults
+    public var calendar: Calendar { return Calendar.current }
 }

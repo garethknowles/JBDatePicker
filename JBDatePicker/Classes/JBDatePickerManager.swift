@@ -13,22 +13,20 @@ final class JBDatePickerManager {
     // MARK: - Properties
     private var components: DateComponents
     private unowned let datePickerView: JBDatePickerView
-    private var calendar: Calendar = .current
     private var currentDate: Date = Date()
     private var startdayOfWeek: Int
-
     
     
     // MARK: - Initialization
     
     init(datePickerView: JBDatePickerView) {
         self.datePickerView = datePickerView
-        self.components = calendar.dateComponents([.month, .day], from: currentDate)
+        self.components = datePickerView.calendar.dateComponents([.month, .day], from: currentDate)
         startdayOfWeek = (datePickerView.delegate?.firstWeekDay.rawValue)!
         
         //let user preference prevail about default
-        calendar.firstWeekday = startdayOfWeek
-        
+        datePickerView.calendar.firstWeekday = startdayOfWeek
+
     }
     
     
@@ -46,6 +44,7 @@ final class JBDatePickerManager {
      */
     func getMonthInfoForDate(_ date: Date) -> (monthStartDay: Date, monthEndDay: Date, numberOfWeeksInMonth: Int, weekDayInfo: [[Int:JBDay]]) {
         
+        let calendar = datePickerView.calendar ?? Calendar.current
         var components = calendar.dateComponents([.year, .month, .weekOfMonth], from: date)
         
         //first day of the month
@@ -131,7 +130,7 @@ final class JBDatePickerManager {
                 //get the last days of the previous month
                 for i in 0..<previousMonthDatesArray.count {
                     let dayInPreviousMonthValue = previousMonthDatesArray[i]
-                    let dayInPreviousMonth = JBDay(dayValue: dayInPreviousMonthValue, monthValue: previousMonthValue, yearValue: previousYearValue, isInMonth: false)
+                    let dayInPreviousMonth = JBDay(dayValue: dayInPreviousMonthValue, monthValue: previousMonthValue, yearValue: previousYearValue, isInMonth: false, calendar: calendar)
                     weekInformationToReturn[i] = dayInPreviousMonth
                 }
                 
@@ -144,7 +143,7 @@ final class JBDatePickerManager {
                 for _ in 0..<amountOfFirstDays {
                     
                     let dayInFirstWeekOfMonth = monthDatesArray[dayOfMonthIndex]
-                    let dayInWeek = JBDay(dayValue: dayInFirstWeekOfMonth, monthValue: monthValue, yearValue: yearValue, isInMonth: true)
+                    let dayInWeek = JBDay(dayValue: dayInFirstWeekOfMonth, monthValue: monthValue, yearValue: yearValue, isInMonth: true, calendar: calendar)
                     weekInformationToReturn[dayOfWeekIndex] = dayInWeek
                     dayOfWeekIndex += 1
                     dayOfMonthIndex += 1
@@ -168,7 +167,7 @@ final class JBDatePickerManager {
                 for _ in 0..<amountOfLastDays {
                     
                     let dayInLastWeekOfMonth = monthDatesArray[dayOfMonthIndex]
-                    let dayInWeek = JBDay(dayValue: dayInLastWeekOfMonth, monthValue: monthValue, yearValue: yearValue, isInMonth: true)
+                    let dayInWeek = JBDay(dayValue: dayInLastWeekOfMonth, monthValue: monthValue, yearValue: yearValue, isInMonth: true, calendar: calendar)
                     weekInformationToReturn[dayOfWeekIndex] = dayInWeek
                     dayOfWeekIndex += 1
                     dayOfMonthIndex += 1
@@ -177,7 +176,7 @@ final class JBDatePickerManager {
                 //get the first days of the next month
                 for i in 0..<nextMonthDatesArray.count {
                     let dayInNextMontValue = nextMonthDatesArray[i]
-                    let dayInNextMonth = JBDay(dayValue: dayInNextMontValue, monthValue: nextMonthValue, yearValue: nextYearValue, isInMonth: false)
+                    let dayInNextMonth = JBDay(dayValue: dayInNextMontValue, monthValue: nextMonthValue, yearValue: nextYearValue, isInMonth: false, calendar: calendar)
                     weekInformationToReturn[dayOfWeekIndex + i] = dayInNextMonth
                 }
                 
@@ -192,7 +191,7 @@ final class JBDatePickerManager {
                 for _ in 0...6 {
                     
                     let dayInWeekOfMonth = monthDatesArray[dayOfMonthIndex]
-                    let dayInWeek = JBDay(dayValue: dayInWeekOfMonth, monthValue: monthValue, yearValue: yearValue, isInMonth: true)
+                    let dayInWeek = JBDay(dayValue: dayInWeekOfMonth, monthValue: monthValue, yearValue: yearValue, isInMonth: true, calendar: calendar)
                     weekInformationToReturn[dayOfWeekIndex] = dayInWeek
                     dayOfWeekIndex += 1
                     dayOfMonthIndex += 1
@@ -213,7 +212,7 @@ final class JBDatePickerManager {
     
     private func basicComponentsForDate(_ date: Date) -> DateComponents {
         
-        return calendar.dateComponents([.year, .month, .weekOfMonth, .day], from: date)
+        return datePickerView.calendar.dateComponents([.year, .month, .weekOfMonth, .day], from: date)
         
     }
     

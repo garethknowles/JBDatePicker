@@ -19,7 +19,7 @@ public final class JBDatePickerDayView: UIView {
     public var date: Date?
 
     var isToday: Bool {
-        return date == Date().stripped()
+        return date == Date().stripped(calendar: datePickerView.calendar)
     }
     
     private var textLabel: UILabel!
@@ -90,7 +90,7 @@ public final class JBDatePickerDayView: UIView {
         }
 
         //select selected day
-        if date == datePickerView.dateToPresent.stripped() {
+        if date == datePickerView.dateToPresent.stripped(calendar: datePickerView.calendar) {
             guard self.dayInfo.isInMonth else { return }
             datePickerView.selectedDateView = self
             //self.backgroundColor = randomColor()

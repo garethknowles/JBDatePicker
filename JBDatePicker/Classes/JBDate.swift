@@ -20,8 +20,10 @@ final class JBDay {
     var monthValue: Int
     var yearValue: Int
     var isInMonth: Bool
+    var calendar: Calendar
     
-    init(dayValue: Int, monthValue: Int, yearValue: Int, isInMonth: Bool) {
+    init(dayValue: Int, monthValue: Int, yearValue: Int, isInMonth: Bool, calendar: Calendar) {
+        self.calendar = calendar
         self.dayValue = dayValue
         self.monthValue = monthValue
         self.yearValue = yearValue
@@ -29,11 +31,10 @@ final class JBDay {
     }
     
     var date: Date? {
-        let calendar = Calendar.current
         var comps = calendar.dateComponents([.day, .month, .year], from: Date())
         comps.year = yearValue
         comps.month = monthValue
         comps.day = dayValue
-        return Calendar.current.date(from: comps)
+        return calendar.date(from: comps)
     }
 }

@@ -98,10 +98,9 @@ class JBDatePickerContentVC: UIViewController, UIScrollViewDelegate {
     ///returns the previous monthView for a given date
     private func getPreviousMonthView(for date: Date) -> MonthView {
         
-        let cal = Calendar.current
-        var comps = cal.dateComponents([.month, .year], from: date)
+        var comps = datePickerView.calendar.dateComponents([.month, .year], from: date)
         comps.month! -= 1
-        let firstDateOfPreviousMonth = cal.date(from: comps)!
+        let firstDateOfPreviousMonth = datePickerView.calendar.date(from: comps)!
         let previousMonthView = MonthView(datePickerView: datePickerView, date: firstDateOfPreviousMonth, isPresented: false)
         
         //this is what gives new new monthView it's initial frame
@@ -114,10 +113,9 @@ class JBDatePickerContentVC: UIViewController, UIScrollViewDelegate {
     ///returns the next monthView for a given date
     private func getNextMonthView(for date: Date) -> MonthView {
         
-        let cal = Calendar.current
-        var comps = cal.dateComponents([.month, .year], from: date)
+        var comps = datePickerView.calendar.dateComponents([.month, .year], from: date)
         comps.month! += 1
-        let firstDateOfNextMonth = cal.date(from: comps)!
+        let firstDateOfNextMonth = datePickerView.calendar.date(from: comps)!
         let nextMonthView = MonthView(datePickerView: datePickerView, date: firstDateOfNextMonth, isPresented: false)
         
         //this is what gives new new monthView it's initial frame

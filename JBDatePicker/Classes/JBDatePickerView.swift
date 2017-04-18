@@ -24,6 +24,7 @@ public final class JBDatePickerView: UIView {
     var dateToPresent: Date!
     var weekdaysView: WeekDaysView!
     fileprivate var dateFormatter = DateFormatter()
+    var calendar: Calendar!
   
     public weak var delegate: JBDatePickerViewDelegate? {
         didSet{
@@ -54,6 +55,9 @@ public final class JBDatePickerView: UIView {
     // MARK: - Initialization
     
     private func commonInit() {
+        
+        //initialize calendar value
+        calendar = delegate?.calendar ?? Calendar.current
 
         //initialize datePickerManager
         manager = Manager(datePickerView: self)
@@ -124,6 +128,7 @@ extension JBDatePickerView {
 
         let monthFormatString = "MMMM yyyy"
         dateFormatter.dateFormat = monthFormatString
+        dateFormatter.timeZone = calendar.timeZone
         if let preferredLanguage = Bundle.main.preferredLocalizations.first {
             if delegate?.shouldLocalize == true {
                 dateFormatter.locale = Locale(identifier: preferredLanguage)
